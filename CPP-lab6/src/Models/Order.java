@@ -1,5 +1,8 @@
 package Models;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,6 +22,17 @@ public class Order implements Serializable {
         this.orderID = orderCounter++;
         this.pizzas = pizzas;
         this.deliveryTime = deliveryTime;
+    }
+
+    public void UpdateFrom(SerializableOrder serializableOrder) {
+        this.orderID = serializableOrder.orderID;
+        this.pizzas = serializableOrder.pizzas;
+        this.deliveryTime = LocalDateTime.parse(serializableOrder.deliveryTime);
+        this.IsDelivered = serializableOrder.IsDelivered;
+    }
+
+    public SerializableOrder ToSerializableOrder() {
+        return new SerializableOrder(this);
     }
 
     public LocalDateTime getDeliveryTime() {
@@ -44,6 +58,19 @@ public class Order implements Serializable {
     @Override
     public String toString() {
         return "OrderID: " + orderID + ". Delivery time: " + deliveryTime;
+    }
+
+    private void writeObject(ObjectOutputStream oos)
+            throws IOException {
+        oos.defaultWriteObject();
+        oos.writeObject(this.ToSerializableOrder());
+    }
+
+    private void readObject(ObjectInputStream ois)
+            throws ClassNotFoundException, IOException {
+        ois.defaultReadObject();
+        SerializableOrder serOrder = (SerializableOrder) ois.readObject();
+        this.UpdateFrom(serOrder);
     }
 }
 

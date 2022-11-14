@@ -16,38 +16,8 @@ public class Main {
         boolean isActive = true;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 
-        final PizzaPlace pizzaPlace = new PizzaPlace();
-//        Customer c1 = new Customer("Vynnychenka 5");
-//        Customer c2 = new Customer("Rynok 1");
-//        Customer c3 = new Customer("Stryiska 100");
-//
-//        pizzaPlace.addCustomer(c1);
-//        pizzaPlace.addCustomer(c2);
-//
-//
-//        c1.AddOrder(new Order(
-//                        new ArrayList<Pizza>(List.of(Pizza.FourCheeses)),
-//                        LocalDateTime.parse("2022-11-01 10:23", formatter)
-//        ));
-//        c1.AddOrder(new Order(
-//                new ArrayList<Pizza>(List.of(Pizza.FourCheeses, Pizza.Diablo)),
-//                LocalDateTime.parse("2023-04-01 12:33", formatter)
-//        ));
-//
-//        c2.AddOrder(new Order(
-//                new ArrayList<Pizza>(List.of(Pizza.Margarita, Pizza.Diablo)),
-//                LocalDateTime.now()
-//        ));
-//
-//        pizzaPlace.addOrderForCustomer(new Order(
-//                new ArrayList<Pizza>(List.of(Pizza.Diablo)),
-//                LocalDateTime.parse("2022-06-01 19:47", formatter)
-//            ),
-//                c3
-//        );
-
-
-        final PizzaManager pizzaManager = new PizzaManager(pizzaPlace);
+        PizzaPlace pizzaPlace = new PizzaPlace();
+        PizzaManager pizzaManager = new PizzaManager(pizzaPlace);
 
         do {
             System.out.println(
@@ -57,7 +27,10 @@ public class Main {
                     + "4. Знайти найбільшу кількість піц, замовлених користувачем серед запропонованого переліку піц.\n"
                     + "5. Створити колекцію з переліком піц та списками їх замовників.\n"
                     + "6. Створити список не виконаних замовлень на біжучий час, та вказати час перетермінування.\n"
-                    + "7. Завершити роботу програми."
+                    + "7. Зчитати із текстового файлу.\n"
+                    + "8. Serialize.\n"
+                    + "9. Deserialize.\n"
+                    + "10. Завершити роботу програми."
             );
 
             Scanner scanner = new Scanner(System.in);
@@ -123,6 +96,17 @@ public class Main {
                     });
                     break;
                 case 7:
+                    pizzaPlace = PizzaPlace.ReadFromTextFile();
+                    pizzaManager = new PizzaManager(pizzaPlace);
+                    break;
+                case 8:
+                    pizzaPlace.Serialize();
+                    break;
+                case 9:
+                    pizzaPlace = PizzaPlace.Deserialize();
+                    pizzaManager = new PizzaManager(pizzaPlace);
+                    break;
+                case 10:
                     System.out.println("Роботу програми завершено!");
                     isActive = false;
                     break;

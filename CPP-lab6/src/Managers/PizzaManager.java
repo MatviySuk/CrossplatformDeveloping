@@ -15,6 +15,8 @@ public class PizzaManager {
 
     // TASK 1
     public List<Order> SortOrderByDeliveryTime() {
+        pizzaPlace.Serialize();
+
         return pizzaPlace.getAllOrders()
                 .stream()
                 .sorted(new OrderComparator())
